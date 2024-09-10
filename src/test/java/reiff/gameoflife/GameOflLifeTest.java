@@ -1,10 +1,10 @@
-package reiff.gameOfLife;
+package reiff.gameoflife;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class GameoflifeTest {
+class GameOfLifeTest {
         @Test
         public void string() {
             //given

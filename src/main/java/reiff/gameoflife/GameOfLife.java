@@ -1,4 +1,4 @@
-package reiff.gameOfLife;
+package reiff.gameoflife;
 
 public class GameOfLife {
     private int[][] field;
