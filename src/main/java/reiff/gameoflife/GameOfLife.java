@@ -62,7 +62,7 @@ public class GameOfLife {
 
 
                 if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height) {
-                    liveCount ++;
+                    liveCount++;
                 }
             }
         }
