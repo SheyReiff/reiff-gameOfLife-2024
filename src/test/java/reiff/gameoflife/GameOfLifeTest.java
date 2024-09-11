@@ -37,14 +37,12 @@ class GameOfLifeTest {
         game.setCell(0, 1, 1);
         game.setCell(1, 1, 1);
         game.setCell(2, 1, 1);
-        System.out.println(game);
-
 
         //when
         game.nextGen();
 
         //then
-        assertEquals("000\n010\n000\n", game.toString());
+        assertEquals("010\n010\n010\n", game.toString());
     }
 
 }
