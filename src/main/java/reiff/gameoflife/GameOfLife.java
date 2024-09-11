@@ -32,27 +32,17 @@ public class GameOfLife {
     public void nextGen() {
         int[][] nextField = new int[height][width];
 
-
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int liveNeighbors = countLiveNeighbors(x, y);
 
-                if (field[y][x] == 1) {
-                    if (liveNeighbors < 2 || liveNeighbors > 3) {
-                        nextField[y][x] = 0;
-                    } else {
-                        nextField[y][x] = 1;
-                    }
-                } else {
-                    if (liveNeighbors == 3) {
-                        nextField[y][x] = 1;
-                    } else {
-                        nextField[y][x] = 0;
-                    }
+                if (field[y][x] == 1 && (liveNeighbors == 2 || liveNeighbors == 3)) {
+                    nextField[y][x] = 1;
+                } else if (field[y][x] == 0 && liveNeighbors == 3) {
+                    nextField[y][x] = 1;
                 }
             }
         }
-
 
         field = nextField;
     }
@@ -72,7 +62,7 @@ public class GameOfLife {
 
 
                 if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height) {
-                    liveCount += field[neighborY][neighborX];
+                    liveCount ++;
                 }
             }
         }

@@ -18,7 +18,7 @@ class GameOfLifeTest {
         }
 
         @Test
-    public void setCell() {
+         public void setCell() {
             //given
             GameOfLife game = new GameOfLife(3, 3);
 
@@ -31,18 +31,20 @@ class GameOfLifeTest {
 
 
         @Test
-    public void nextGen() {
+        public void nextGen() {
         //given
         GameOfLife game = new GameOfLife(3, 3);
+        game.setCell(0, 1, 1);
         game.setCell(1, 1, 1);
         game.setCell(2, 1, 1);
-        game.setCell(0, 0, 1);
+        System.out.println(game);
+
 
         //when
         game.nextGen();
 
         //then
-        assertEquals("010\n010\n000\n", game.toString());
+        assertEquals("000\n010\n000\n", game.toString());
     }
 
 }
