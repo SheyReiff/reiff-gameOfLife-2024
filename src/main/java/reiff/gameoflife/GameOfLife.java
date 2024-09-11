@@ -50,23 +50,25 @@ public class GameOfLife {
     private int countLiveNeighbors(int x, int y) {
         int liveCount = 0;
 
-
-        for (int neighborOffsetY = -1; neighborOffsetY <= 1; neighborOffsetY++) {
-            for (int neighborOffsetX = -1; neighborOffsetX <= 1; neighborOffsetX++) {
-                if (neighborOffsetX == 0 && neighborOffsetY == 0) {
-                    continue;
+        for (int offsetY = -1; offsetY <= 1; offsetY++) {
+            for (int offsetX = -1; offsetX <= 1; offsetX++) {
+                if (offsetX == 0 && offsetY == 0) {
+                    continue;  // Skip the cell itself
                 }
 
-                int neighborX = x + neighborOffsetX;
-                int neighborY = y + neighborOffsetY;
+                int neighborX = x + offsetX;
+                int neighborY = y + offsetY;
 
 
                 if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height) {
-                    liveCount++;
+                    if (field[neighborY][neighborX] == 1) {
+                        liveCount++;
+                    }
                 }
             }
         }
 
         return liveCount;
     }
+
 }
