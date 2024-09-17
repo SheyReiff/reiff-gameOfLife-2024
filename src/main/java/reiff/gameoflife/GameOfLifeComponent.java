@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class GameOfLifeComponent extends JComponent {
     private final GameOfLife game;
-    private final int CELL_SIZE = 20;
+    private final int cellSize = 20;
 
     private final Timer timer;
 
@@ -22,8 +22,8 @@ public class GameOfLifeComponent extends JComponent {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                int x = e.getX() / CELL_SIZE;
-                int y = e.getY() / CELL_SIZE;
+                int x = e.getX() / cellSize;
+                int y = e.getY() / cellSize;
                 if (x < game.getWidth() && y < game.getHeight()) {
                     int currentState = game.getCell(x, y);
                     game.setCell(x, y, currentState == 1 ? 0 : 1);
@@ -75,17 +75,17 @@ public class GameOfLifeComponent extends JComponent {
         g.setColor(Color.GRAY);
 
         for (int x = 0; x <= game.getWidth(); x++) {
-            g.drawLine(x * CELL_SIZE, 0, x * CELL_SIZE, game.getHeight() * CELL_SIZE);
+            g.drawLine(x * cellSize, 0, x * cellSize, game.getHeight() * cellSize);
         }
         for (int y = 0; y <= game.getHeight(); y++) {
-            g.drawLine(0, y * CELL_SIZE, game.getWidth() * CELL_SIZE, y * CELL_SIZE);
+            g.drawLine(0, y * cellSize, game.getWidth() * cellSize, y * cellSize);
         }
 
         for (int y = 0; y < game.getHeight(); y++) {
             for (int x = 0; x < game.getWidth(); x++) {
                 if (game.getCell(x, y) == 1) {
                     g.setColor(Color.WHITE);
-                    g.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 1, CELL_SIZE - 1);
+                    g.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
                 }
             }
         }

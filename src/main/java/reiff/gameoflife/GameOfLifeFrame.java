@@ -1,4 +1,5 @@
 package reiff.gameoflife;
+
 import javax.swing.*;
 import java.awt.*;
 
