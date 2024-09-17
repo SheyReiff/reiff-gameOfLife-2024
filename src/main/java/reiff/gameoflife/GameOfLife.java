@@ -14,6 +14,17 @@ public class GameOfLife {
     public void setCell(int x, int y, int state) {
         field[y][x] = state;
     }
+    public int getHeight() {
+        return field.length; // Assuming 'field' is your 2D grid array
+    }
+
+    public int getWidth() {
+        return field[0].length;
+    }
+
+    public int getCell(int x, int y) {
+        return field[y][x]; // Get the value of the cell at (x, y)
+    }
 
     public String toString() {
 
