@@ -15,6 +15,18 @@ public class GameOfLife {
         field[y][x] = state;
     }
 
+    public int getHeight() {
+        return field.length;
+    }
+
+    public int getWidth() {
+        return field[0].length;
+    }
+
+    public int getCell(int x, int y) {
+        return field[y][x];
+    }
+
     public String toString() {
 
         StringBuilder builder = new StringBuilder();
