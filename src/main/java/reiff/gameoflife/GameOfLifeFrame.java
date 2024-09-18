@@ -14,7 +14,7 @@ public class GameOfLifeFrame extends JFrame {
         setLayout(new BorderLayout());
 
         GameOfLife game = new GameOfLife(300, 300);
-        GameOfLifeComponent gameOfLifeComponent = new GameOfLifeComponent(game);
+        GameOfLifeComponent gameOfLifeComponent = new GameOfLifeComponent(game, 20);
         add(gameOfLifeComponent, BorderLayout.CENTER);
 
         JPanel controlPanel = new JPanel();

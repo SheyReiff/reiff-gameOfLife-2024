@@ -7,12 +7,13 @@ import java.awt.event.MouseListener;
 
 public class GameOfLifeComponent extends JComponent {
     private final GameOfLife game;
-    private final int cellSize = 20;
+    private final int cellSize;
 
     private final Timer timer;
 
-    public GameOfLifeComponent(GameOfLife game) {
+    public GameOfLifeComponent(GameOfLife game, int cellSize) {
         this.game = game;
+        this.cellSize = cellSize;
 
          timer = new Timer(1000, e -> {
             game.nextGen();
@@ -81,10 +82,10 @@ public class GameOfLifeComponent extends JComponent {
             g.drawLine(0, y * cellSize, game.getWidth() * cellSize, y * cellSize);
         }
 
+        g.setColor(Color.WHITE);
         for (int y = 0; y < game.getHeight(); y++) {
             for (int x = 0; x < game.getWidth(); x++) {
                 if (game.getCell(x, y) == 1) {
-                    g.setColor(Color.WHITE);
                     g.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 1, cellSize - 1);
                 }
             }
