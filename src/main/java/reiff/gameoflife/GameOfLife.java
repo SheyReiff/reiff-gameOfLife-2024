@@ -50,7 +50,8 @@ public class GameOfLife {
             return;
         }
         String[] lines = rle.split("\n");
-        int currentX = 0, currentY = 0;
+        int currentX = 0;
+        int currentY = 0;
         boolean headerRead = false;
 
         for (String line : lines) {
@@ -72,17 +73,25 @@ public class GameOfLife {
                 if (Character.isDigit(c)) {
                     runCount = runCount * 10 + (c - '0');
                 } else if (c == 'b') {
-                    if (runCount == 0) runCount = 1;
+                    if (runCount == 0) {
+                        runCount = 1;
+                    }
                     for (int j = 0; j < runCount; j++) {
                         setCell(currentX++, currentY, 0);
-                        if (currentX >= width) break;
+                        if (currentX >= width) {
+                            break;
+                        }
                     }
                     runCount = 0;
                 } else if (c == 'o') {
-                    if (runCount == 0) runCount = 1;
+                    if (runCount == 0) {
+                        runCount = 1;
+                    }
                     for (int j = 0; j < runCount; j++) {
                         setCell(currentX++, currentY, 1);
-                        if (currentX >= width) break;
+                        if (currentX >= width) {
+                            break;
+                        }
                     }
                     runCount = 0;
                 } else if (c == '$') {

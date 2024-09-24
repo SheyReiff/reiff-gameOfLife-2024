@@ -48,12 +48,12 @@ class GameOfLifeTest {
     }
 
     @Test
-    public void loadRLEFromString_SimplePattern() {
+    public void loadRleFromStringSimplePattern() {
         // given
         GameOfLife game = new GameOfLife(10, 10);
 
-        String rle = "x = 5, y = 3\n" +
-                "bo$2bo$3o!";
+        String rle = "x = 5, y = 3\n"
+                + "bo$2bo$3o!";
 
         // when
         game.loadRleFromString(rle);
@@ -63,7 +63,7 @@ class GameOfLifeTest {
     }
 
     @Test
-    public void testRLEParsingSingleRow() {
+    public void testRleParsingSingleRow() {
         // Given
         GameOfLife game = new GameOfLife(0, 0);
         String rle = "x = 5, y = 1\nbo$";
@@ -76,7 +76,7 @@ class GameOfLifeTest {
     }
 
     @Test
-    public void testEmptyRLEInput() {
+    public void testEmptyRleInput() {
         // Given
         GameOfLife game = new GameOfLife(0, 0);
         String rle = "";
@@ -87,6 +87,7 @@ class GameOfLifeTest {
         // Then
         assertEquals("00000\n00000\n00000\n", game.toString());
     }
+
     @Test
     public void testOnlyLiveCells() {
         // Given
@@ -99,6 +100,7 @@ class GameOfLifeTest {
         // Then
         assertEquals("11111\n", game.toString());
     }
+
     @Test
     public void testLongDeadCellRuns() {
         // Given
