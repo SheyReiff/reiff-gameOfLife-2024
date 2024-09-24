@@ -2,6 +2,8 @@ package reiff.gameoflife;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameOfLifeTest {
@@ -43,6 +45,71 @@ class GameOfLifeTest {
 
         //then
         assertEquals("010\n010\n010\n", game.toString());
+    }
+
+    @Test
+    public void loadRLEFromString_SimplePattern() {
+        // given
+        GameOfLife game = new GameOfLife(10, 10);
+
+        String rle = "x = 5, y = 3\n" +
+                "bo$2bo$3o!";
+
+        // when
+        game.loadRleFromString(rle);
+
+        // then
+        assertEquals("01000\n00100\n11100\n", game.toString());
+    }
+
+    @Test
+    public void testRLEParsingSingleRow() {
+        // Given
+        GameOfLife game = new GameOfLife(0, 0);
+        String rle = "x = 5, y = 1\nbo$";
+
+        // When
+        game.loadRleFromString(rle);
+
+        // Then
+        assertEquals("01000\n", game.toString());
+    }
+
+    @Test
+    public void testEmptyRLEInput() {
+        // Given
+        GameOfLife game = new GameOfLife(0, 0);
+        String rle = "";
+
+        // When
+        game.loadRleFromString(rle);
+
+        // Then
+        assertEquals("00000\n00000\n00000\n", game.toString());
+    }
+    @Test
+    public void testOnlyLiveCells() {
+        // Given
+        GameOfLife game = new GameOfLife(0, 0);
+        String rle = "x = 5, y = 1\n5o!";
+
+        // When
+        game.loadRleFromString(rle);
+
+        // Then
+        assertEquals("11111\n", game.toString());
+    }
+    @Test
+    public void testLongDeadCellRuns() {
+        // Given
+        GameOfLife game = new GameOfLife(0, 0);
+        String rle = "x = 5, y = 2\n5b$5b!";
+
+        // When
+        game.loadRleFromString(rle);
+
+        // Then
+        assertEquals("00000\n00000\n", game.toString());
     }
 
 }
