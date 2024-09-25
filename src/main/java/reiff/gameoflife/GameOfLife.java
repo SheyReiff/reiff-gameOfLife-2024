@@ -2,8 +2,8 @@ package reiff.gameoflife;
 
 public class GameOfLife {
     private int[][] field;
-    private final int height;
-    private final int width;
+    private int height;
+    private int width;
 
     public GameOfLife(int height, int width) {
         this.height = height;
@@ -40,6 +40,64 @@ public class GameOfLife {
 
         return builder.toString();
     }
+
+    public void loadRleFromString(String rle) {
+
+        String[] lines = rle.split("\n");
+        int currentX = 0;
+        int currentY = 0;
+        boolean headerRead = false;
+
+        for (String line : lines) {
+            line = line.trim();
+
+            if (!headerRead && line.startsWith("x")) {
+                String[] parts = line.split(",");
+                this.width = Integer.parseInt(parts[0].split("=")[1].trim());
+                this.height = Integer.parseInt(parts[1].split("=")[1].trim());
+                this.field = new int[height][width];
+                headerRead = true;
+                continue;
+            }
+
+            int runCount = 0;
+            for (int i = 0; i < line.length(); i++) {
+                char c = line.charAt(i);
+
+                if (Character.isDigit(c)) {
+                    runCount = runCount * 10 + (c - '0');
+                } else if (c == 'b') {
+                    if (runCount == 0) {
+                        runCount = 1;
+                    }
+                    for (int j = 0; j < runCount; j++) {
+                        setCell(currentX++, currentY, 0);
+                        if (currentX >= width) {
+                            break;
+                        }
+                    }
+                    runCount = 0;
+                } else if (c == 'o') {
+                    if (runCount == 0) {
+                        runCount = 1;
+                    }
+                    for (int j = 0; j < runCount; j++) {
+                        setCell(currentX++, currentY, 1);
+                        if (currentX >= width) {
+                            break;
+                        }
+                    }
+                    runCount = 0;
+                } else if (c == '$') {
+                    currentX = 0;
+                    currentY++;
+                } else if (c == '!') {
+                    break;
+                }
+            }
+        }
+    }
+
 
     public void nextGen() {
         int[][] nextField = new int[height][width];
