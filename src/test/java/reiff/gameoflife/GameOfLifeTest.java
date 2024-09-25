@@ -2,8 +2,6 @@ package reiff.gameoflife;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameOfLifeTest {
@@ -63,7 +61,7 @@ class GameOfLifeTest {
     }
 
     @Test
-    public void testRleParsingSingleRow() {
+    public void rleParsingSingleRow() {
         // Given
         GameOfLife game = new GameOfLife(0, 0);
         String rle = "x = 5, y = 1\nbo$";
@@ -75,21 +73,9 @@ class GameOfLifeTest {
         assertEquals("01000\n", game.toString());
     }
 
-    @Test
-    public void testEmptyRleInput() {
-        // Given
-        GameOfLife game = new GameOfLife(0, 0);
-        String rle = "";
-
-        // When
-        game.loadRleFromString(rle);
-
-        // Then
-        assertEquals("00000\n00000\n00000\n", game.toString());
-    }
 
     @Test
-    public void testOnlyLiveCells() {
+    public void onlyLiveCells() {
         // Given
         GameOfLife game = new GameOfLife(0, 0);
         String rle = "x = 5, y = 1\n5o!";
@@ -102,7 +88,7 @@ class GameOfLifeTest {
     }
 
     @Test
-    public void testLongDeadCellRuns() {
+    public void longDeadCellRuns() {
         // Given
         GameOfLife game = new GameOfLife(0, 0);
         String rle = "x = 5, y = 2\n5b$5b!";

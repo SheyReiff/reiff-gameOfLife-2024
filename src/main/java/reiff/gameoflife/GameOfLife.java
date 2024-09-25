@@ -43,12 +43,6 @@ public class GameOfLife {
 
     public void loadRleFromString(String rle) {
 
-        if (rle == null || rle.isEmpty()) {
-            this.width = 5;
-            this.height = 3;
-            this.field = new int[height][width];
-            return;
-        }
         String[] lines = rle.split("\n");
         int currentX = 0;
         int currentY = 0;
