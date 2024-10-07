@@ -6,8 +6,8 @@ public class GameOfLife {
     private int width;
 
     public GameOfLife(int height, int width) {
-        this.height = height;
-        this.width = width;
+        this.height = Math.max(height, 100);
+        this.width = Math.max(width, 100);
         field = new int[height][width];
     }
 
@@ -47,15 +47,24 @@ public class GameOfLife {
         int currentX = 0;
         int currentY = 0;
         boolean headerRead = false;
+        int offsetX =0;
+        int offsetY=0;
+
 
         for (String line : lines) {
             line = line.trim();
 
             if (!headerRead && line.startsWith("x")) {
                 String[] parts = line.split(",");
-                this.width = Integer.parseInt(parts[0].split("=")[1].trim());
-                this.height = Integer.parseInt(parts[1].split("=")[1].trim());
-                this.field = new int[height][width];
+                int patternWidth = Integer.parseInt(parts[0].split("=")[1].trim());
+                int patternHeight = Integer.parseInt(parts[1].split("=")[1].trim());
+
+                 offsetX = (width - patternWidth) / 2;
+                 offsetY = (height - patternHeight) / 2;
+
+                currentX = offsetX;
+                currentY = offsetY;
+
                 headerRead = true;
                 continue;
             }
@@ -89,7 +98,7 @@ public class GameOfLife {
                     }
                     runCount = 0;
                 } else if (c == '$') {
-                    currentX = 0;
+                    currentX = offsetX;
                     currentY++;
                 } else if (c == '!') {
                     break;

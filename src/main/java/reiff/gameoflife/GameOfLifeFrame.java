@@ -1,7 +1,15 @@
 package reiff.gameoflife;
 
+import org.apache.commons.io.IOUtils;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 
 public class GameOfLifeFrame extends JFrame {
@@ -34,6 +42,34 @@ public class GameOfLifeFrame extends JFrame {
         controlPanel.add(playButton);
         controlPanel.add(pauseButton);
         add(controlPanel, BorderLayout.SOUTH);
+
+        JButton pasteButton = new JButton("Paste");
+
+        pasteButton.addActionListener(e -> {
+            try {
+                String clipboardContents = (String) Toolkit.getDefaultToolkit()
+                        .getSystemClipboard().getData(DataFlavor.stringFlavor);
+
+                if (clipboardContents.startsWith("http")) {
+                    InputStream in = new URL(clipboardContents).openStream();
+                    String rleContents = IOUtils.toString(in, StandardCharsets.UTF_8);
+                    game.loadRleFromString(rleContents);
+                } else if (new File(clipboardContents).exists()) {
+                    FileInputStream fisTargetFile = new FileInputStream(new File(clipboardContents));
+                    String rleContents = IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
+                    game.loadRleFromString(rleContents);
+                } else {
+                    game.loadRleFromString(clipboardContents);
+                }
+
+                gameOfLifeComponent.repaint();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        controlPanel.add(pasteButton);
+
     }
 
 }

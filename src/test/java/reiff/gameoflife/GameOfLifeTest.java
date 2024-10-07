@@ -53,6 +53,8 @@ class GameOfLifeTest {
         String rle = "x = 5, y = 3\n"
                 + "bo$2bo$3o!";
 
+
+
         // when
         game.loadRleFromString(rle);
 
