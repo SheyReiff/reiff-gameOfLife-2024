@@ -2,8 +2,8 @@ package reiff.gameoflife;
 
 public class GameOfLife {
     private int[][] field;
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
 
     public GameOfLife(int height, int width) {
         this.height = Math.max(height, 100);
@@ -47,8 +47,8 @@ public class GameOfLife {
         int currentX = 0;
         int currentY = 0;
         boolean headerRead = false;
-        int offsetX =0;
-        int offsetY=0;
+        int offsetX = 0;
+        int offsetY = 0;
 
 
         for (String line : lines) {
@@ -100,6 +100,9 @@ public class GameOfLife {
                 } else if (c == '$') {
                     currentX = offsetX;
                     currentY++;
+                    if (currentY >= height) {
+                        break;
+                    }
                 } else if (c == '!') {
                     break;
                 }
