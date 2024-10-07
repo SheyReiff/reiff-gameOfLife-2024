@@ -49,9 +49,12 @@ class GameOfLifeTest {
     public void loadRleFromStringSimplePattern() {
         // given
         GameOfLife game = new GameOfLife(100, 100);
-        String rle = "x = 4, y = 4\n" +
-                "4o$" +
-                "4b$" +
+        String rle = "x = 4, y = 4\n"
+                +
+                "4o$"
+                +
+                "4b$"
+                +
                 "!\n";
 
         // when
