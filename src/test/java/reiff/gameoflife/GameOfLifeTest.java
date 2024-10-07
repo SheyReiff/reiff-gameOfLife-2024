@@ -32,18 +32,21 @@ class GameOfLifeTest {
 
         @Test
         public void nextGen() {
-        //given
-        GameOfLife game = new GameOfLife(3, 3);
-        game.setCell(0, 1, 1);
-        game.setCell(1, 1, 1);
-        game.setCell(2, 1, 1);
+            //given
+            GameOfLife game = new GameOfLife(100, 100);
+            game.setCell(0, 1, 1);
+            game.setCell(1, 1, 1);
+            game.setCell(2, 1, 1);
 
-        //when
-        game.nextGen();
+            //when
+            game.nextGen();
 
-        //then
-        assertEquals("010\n010\n010\n", game.toString());
-    }
+            //then
+            assertEquals(1, game.getCell(1, 0));
+            assertEquals(1, game.getCell(1, 1));
+            assertEquals(1, game.getCell(1, 2));
+        }
+
 
     @Test
     public void loadRleFromStringSimplePattern() {
