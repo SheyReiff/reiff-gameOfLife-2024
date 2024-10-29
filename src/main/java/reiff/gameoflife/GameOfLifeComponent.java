@@ -67,6 +67,10 @@ public class GameOfLifeComponent extends JComponent {
         }
     }
 
+    public int getCellSize(){
+     return this.cellSize;
+    }
+
     protected void paintComponent(Graphics g) {
 
         g.setColor(Color.BLACK);

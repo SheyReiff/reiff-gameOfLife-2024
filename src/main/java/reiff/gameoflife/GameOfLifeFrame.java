@@ -1,15 +1,14 @@
 package reiff.gameoflife;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
+
 
 
 public class GameOfLifeFrame extends JFrame {
@@ -23,6 +22,22 @@ public class GameOfLifeFrame extends JFrame {
 
         GameOfLife game = new GameOfLife(300, 300);
         GameOfLifeComponent gameOfLifeComponent = new GameOfLifeComponent(game, 20);
+        GameOfLifeController controller = new GameOfLifeController(game, gameOfLifeComponent);
+
+        gameOfLifeComponent.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.toggleCell(e.getX(), e.getY());
+            }
+        });
+
+        gameOfLifeComponent.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                controller.toggleCell(e.getX(), e.getY());
+            }
+        });
+
         add(gameOfLifeComponent, BorderLayout.CENTER);
 
         JPanel controlPanel = new JPanel();
@@ -49,28 +64,17 @@ public class GameOfLifeFrame extends JFrame {
             try {
                 String clipboardContents = (String) Toolkit.getDefaultToolkit()
                         .getSystemClipboard().getData(DataFlavor.stringFlavor);
+                controller.paste(clipboardContents);
 
-                if (clipboardContents.startsWith("http")) {
-                    InputStream in = new URL(clipboardContents).openStream();
-                    String rleContents = IOUtils.toString(in, StandardCharsets.UTF_8);
-                    game.loadRleFromString(rleContents);
-                } else if (new File(clipboardContents).exists()) {
-                    FileInputStream fisTargetFile = new FileInputStream(new File(clipboardContents));
-                    String rleContents = IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
-                    game.loadRleFromString(rleContents);
-                } else {
-                    game.loadRleFromString(clipboardContents);
-                }
-
-                gameOfLifeComponent.repaint();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IOException | UnsupportedFlavorException ex) {
+                throw new RuntimeException(ex);
             }
+
+
         });
-
         controlPanel.add(pasteButton);
-
     }
-
 }
+
+
 
