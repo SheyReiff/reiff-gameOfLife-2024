@@ -67,7 +67,9 @@ public class GameOfLifeComponent extends JComponent {
         }
     }
 
-    public int getCellSize() {return this.cellSize;}
+    public int getCellSize() {
+        return this.cellSize;
+    }
 
     protected void paintComponent(Graphics g) {
 
