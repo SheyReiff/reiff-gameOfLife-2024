@@ -6,18 +6,19 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
 public class GameOfLifeController {
 
     private final GameOfLife model;
     private final GameOfLifeComponent view;
 
 
-    public GameOfLifeController(GameOfLife model, GameOfLifeComponent view){
+    public GameOfLifeController(GameOfLife model, GameOfLifeComponent view) {
         this.model = model;
         this.view = view;
     }
 
-    public void toggleCell(int screenX, int screenY){
+    public void toggleCell(int screenX, int screenY) {
 
         int x = screenX / view.getCellSize();
         int y = screenY / view.getCellSize();
@@ -28,7 +29,7 @@ public class GameOfLifeController {
         }
     }
 
-    public void paste(String clipboardContents){
+    public void paste(String clipboardContents) {
         try {
 
             if (clipboardContents.startsWith("http")) {

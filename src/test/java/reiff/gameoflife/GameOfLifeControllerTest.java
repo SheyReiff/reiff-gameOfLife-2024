@@ -20,7 +20,7 @@ class GameOfLifeControllerTest {
         //given
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
-        GameOfLifeController controller = new GameOfLifeController(model, view);
+        final GameOfLifeController controller = new GameOfLifeController(model, view);
         doReturn(10).when(view).getCellSize();
         doReturn(100).when(model).getWidth();
         doReturn(100).when(model).getHeight();
@@ -38,11 +38,11 @@ class GameOfLifeControllerTest {
         //given
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
-        GameOfLifeController controller = new GameOfLifeController(model, view);
+        final GameOfLifeController controller = new GameOfLifeController(model, view);
         doReturn(10).when(view).getCellSize();
         doReturn(100).when(model).getWidth();
         doReturn(100).when(model).getHeight();
-        doReturn(1).when(model).getCell(5,10);
+        doReturn(1).when(model).getCell(5, 10);
 
         //when
         controller.toggleCell(50, 100);
@@ -53,7 +53,7 @@ class GameOfLifeControllerTest {
     }
 
     @Test
-    public void pasteRle(){
+    public void pasteRle() {
         //given
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
@@ -67,7 +67,7 @@ class GameOfLifeControllerTest {
     }
 
     @Test
-    public void pasteURL(){
+    public void pasteUrl() {
 
         //given
         GameOfLife model = mock();
@@ -84,13 +84,13 @@ class GameOfLifeControllerTest {
     }
 
     @Test
-    public void pasteFile(){
+    public void pasteFile() {
 
         //given
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
         GameOfLifeController controller = new GameOfLifeController(model, view);
-        String filename= "glider.rle";
+        String filename = "glider.rle";
 
         //when
         controller.paste(filename);
