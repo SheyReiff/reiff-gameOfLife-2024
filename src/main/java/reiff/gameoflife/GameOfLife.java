@@ -2,12 +2,12 @@ package reiff.gameoflife;
 
 public class GameOfLife {
     private int[][] field;
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
 
     public GameOfLife(int height, int width) {
-        this.height = height;
-        this.width = width;
+        this.height = Math.max(height, 100);
+        this.width = Math.max(width, 100);
         field = new int[height][width];
     }
 
@@ -42,20 +42,33 @@ public class GameOfLife {
     }
 
     public void loadRleFromString(String rle) {
-
-        String[] lines = rle.split("\n");
+        // Split by line separator to handle different line endings
+        String[] lines = rle.split("\\r?\\n");
         int currentX = 0;
         int currentY = 0;
         boolean headerRead = false;
+        int offsetX = 0;
+        int offsetY = 0;
 
         for (String line : lines) {
             line = line.trim();
 
             if (!headerRead && line.startsWith("x")) {
                 String[] parts = line.split(",");
-                this.width = Integer.parseInt(parts[0].split("=")[1].trim());
-                this.height = Integer.parseInt(parts[1].split("=")[1].trim());
-                this.field = new int[height][width];
+                int patternWidth = Integer.parseInt(parts[0].split("=")[1].trim());
+                int patternHeight = Integer.parseInt(parts[1].split("=")[1].trim());
+
+                // Check for valid dimensions
+                if (patternWidth > width || patternHeight > height) {
+                    throw new IllegalArgumentException("Pattern dimensions exceed grid size.");
+                }
+
+                offsetX = (width - patternWidth) / 2;
+                offsetY = (height - patternHeight) / 2;
+
+                currentX = offsetX;
+                currentY = offsetY;
+
                 headerRead = true;
                 continue;
             }
@@ -68,35 +81,49 @@ public class GameOfLife {
                     runCount = runCount * 10 + (c - '0');
                 } else if (c == 'b') {
                     if (runCount == 0) {
-                        runCount = 1;
+                        runCount = 1; // Default to 1 if runCount is zero
                     }
                     for (int j = 0; j < runCount; j++) {
                         setCell(currentX++, currentY, 0);
                         if (currentX >= width) {
-                            break;
+                            currentX = offsetX; // Reset to offsetX for new row
+                            currentY++;
+                            if (currentY >= height) {
+                                return; // Stop if we exceed the height of the grid
+                            }
+                            break; // Break out to process the next character
                         }
                     }
                     runCount = 0;
                 } else if (c == 'o') {
                     if (runCount == 0) {
-                        runCount = 1;
+                        runCount = 1; // Default to 1 if runCount is zero
                     }
                     for (int j = 0; j < runCount; j++) {
                         setCell(currentX++, currentY, 1);
                         if (currentX >= width) {
-                            break;
+                            currentX = offsetX; // Reset to offsetX for new row
+                            currentY++;
+                            if (currentY >= height) {
+                                return; // Stop if we exceed the height of the grid
+                            }
+                            break; // Break out to process the next character
                         }
                     }
                     runCount = 0;
                 } else if (c == '$') {
-                    currentX = 0;
+                    currentX = offsetX; // Reset X for the new row
                     currentY++;
+                    if (currentY >= height) {
+                        return; // Stop if we exceed the height of the grid
+                    }
                 } else if (c == '!') {
-                    break;
+                    return; // End of pattern processing
                 }
             }
         }
     }
+
 
 
     public void nextGen() {

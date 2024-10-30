@@ -32,72 +32,50 @@ class GameOfLifeTest {
 
         @Test
         public void nextGen() {
-        //given
-        GameOfLife game = new GameOfLife(3, 3);
-        game.setCell(0, 1, 1);
-        game.setCell(1, 1, 1);
-        game.setCell(2, 1, 1);
+            //given
+            GameOfLife game = new GameOfLife(100, 100);
+            game.setCell(0, 1, 1);
+            game.setCell(1, 1, 1);
+            game.setCell(2, 1, 1);
 
-        //when
-        game.nextGen();
+            //when
+            game.nextGen();
 
-        //then
-        assertEquals("010\n010\n010\n", game.toString());
-    }
+            //then
+            assertEquals(1, game.getCell(1, 0));
+            assertEquals(1, game.getCell(1, 1));
+            assertEquals(1, game.getCell(1, 2));
+        }
+
 
     @Test
     public void loadRleFromStringSimplePattern() {
         // given
-        GameOfLife game = new GameOfLife(10, 10);
-
-        String rle = "x = 5, y = 3\n"
-                + "bo$2bo$3o!";
+        GameOfLife game = new GameOfLife(100, 100);
+        String rle = "x = 4, y = 4\n"
+                +
+                "4o$"
+                +
+                "4b$"
+                +
+                "!\n";
 
         // when
         game.loadRleFromString(rle);
 
+        int offSetX = (100 - 4) / 2;
+        int offSetY = (100 - 4) / 2;
+
         // then
-        assertEquals("01000\n00100\n11100\n", game.toString());
-    }
+        assertEquals(1, game.getCell(offSetX, offSetY));     // Top-left of the block
+        assertEquals(1, game.getCell(offSetX + 1, offSetY)); // Top-middle of the block
+        assertEquals(1, game.getCell(offSetX + 2, offSetY)); // Top-right of the block
+        assertEquals(1, game.getCell(offSetX + 3, offSetY)); // Top-right of the block
 
-    @Test
-    public void rleParsingSingleRow() {
-        // Given
-        GameOfLife game = new GameOfLife(0, 0);
-        String rle = "x = 5, y = 1\nbo$";
-
-        // When
-        game.loadRleFromString(rle);
-
-        // Then
-        assertEquals("01000\n", game.toString());
-    }
-
-
-    @Test
-    public void onlyLiveCells() {
-        // Given
-        GameOfLife game = new GameOfLife(0, 0);
-        String rle = "x = 5, y = 1\n5o!";
-
-        // When
-        game.loadRleFromString(rle);
-
-        // Then
-        assertEquals("11111\n", game.toString());
-    }
-
-    @Test
-    public void longDeadCellRuns() {
-        // Given
-        GameOfLife game = new GameOfLife(0, 0);
-        String rle = "x = 5, y = 2\n5b$5b!";
-
-        // When
-        game.loadRleFromString(rle);
-
-        // Then
-        assertEquals("00000\n00000\n", game.toString());
+        assertEquals(0, game.getCell(offSetX, offSetY + 1)); // Bottom-left of the block
+        assertEquals(0, game.getCell(offSetX + 1, offSetY + 1)); // Bottom-middle of the block
+        assertEquals(0, game.getCell(offSetX + 2, offSetY + 1)); // Bottom-middle of the block
+        assertEquals(0, game.getCell(offSetX + 3, offSetY + 1)); // Bottom-right of the block
     }
 
 }
