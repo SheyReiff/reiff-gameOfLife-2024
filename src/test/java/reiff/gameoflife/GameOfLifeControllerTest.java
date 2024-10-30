@@ -1,6 +1,8 @@
 package reiff.gameoflife;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+
 import static org.mockito.Mockito.*;
 
 class GameOfLifeControllerTest {
@@ -12,7 +14,8 @@ class GameOfLifeControllerTest {
             #C www.conwaylife.com/wiki/index.php?title=Glider
             x = 3, y = 3, rule = B3/S23
             bob$2bo$3o!
-    """.trim().replace("\n", "\r\n") + "\r\n";
+            """.trim();
+
 
 
     @Test
@@ -73,13 +76,13 @@ class GameOfLifeControllerTest {
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
         GameOfLifeController controller = new GameOfLifeController(model, view);
-        String rle = "https://conwaylife.com/patterns/glider.rle";
+        String url = "https://conwaylife.com/patterns/glider.rle";
 
         //when
-        controller.paste(rle);
+        controller.paste(url);
 
         //then
-        verify(model).loadRleFromString(GLIDER_RLE);
+        verify(model).loadRleFromString(GLIDER_RLE.replace("\n", "\r\n"));
         verify(view).repaint();
     }
 
@@ -90,13 +93,13 @@ class GameOfLifeControllerTest {
         GameOfLife model = mock();
         GameOfLifeComponent view = mock();
         GameOfLifeController controller = new GameOfLifeController(model, view);
-        String filename = "glider.rle";
+        String filename = "glider.rle";;
 
         //when
         controller.paste(filename);
 
         //then
-        verify(model).loadRleFromString(GLIDER_RLE);
+        verify(model).loadRleFromString(GLIDER_RLE.replace("\n", "\r\n"));
         verify(view).repaint();
     }
 }

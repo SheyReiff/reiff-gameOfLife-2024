@@ -30,26 +30,33 @@ public class GameOfLifeController {
     }
 
     public void paste(String clipboardContents) {
-        try {
+        if (clipboardContents == null || clipboardContents.isEmpty()) {
+            System.out.println("No content to paste.");
+            return;
+        }
 
+        try {
             if (clipboardContents.startsWith("http")) {
-                InputStream in = new URL(clipboardContents).openStream();
-                String rleContents = IOUtils.toString(in, StandardCharsets.UTF_8);
-                model.loadRleFromString(rleContents);
+                try (InputStream in = new URL(clipboardContents).openStream()) {
+                    String rleContents = IOUtils.toString(in, StandardCharsets.UTF_8);
+                    model.loadRleFromString(rleContents);
+                }
             } else if (new File(clipboardContents).exists()) {
-                FileInputStream fisTargetFile = new FileInputStream(clipboardContents);
-                String rleContents = IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
-                model.loadRleFromString(rleContents);
+                try (FileInputStream fisTargetFile = new FileInputStream(clipboardContents)) {
+                    String rleContents = IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
+                    model.loadRleFromString(rleContents);
+                }
             } else {
                 model.loadRleFromString(clipboardContents);
             }
 
             view.repaint();
         } catch (Exception ex) {
+            System.err.println("Error pasting content: " + ex.getMessage());
             ex.printStackTrace();
         }
-
     }
+
 
     public void startTimer(){
 
